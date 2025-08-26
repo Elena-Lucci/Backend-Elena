@@ -15,8 +15,9 @@ useEffect(() => {
 
 async function handleCompatibilita(segno1, segno2) {
 try {
-const result = await fetch(`http://localhost:3500/${segno1}-${segno2}`);
+const result = await fetch(`http://localhost:3500/compatibilita/${segno1}-${segno2}`);
 const data = await result.json();
+console.log(data.compatibilita)
 return data.compatibilita;
 }
 catch(error) {
@@ -26,7 +27,13 @@ catch(error) {
 
   return (
     <>
-    <form onSubmit={handleCompatibilita}>
+    <form onSubmit={(event) =>
+    {
+      event.preventDefault()
+      handleCompatibilita(segno1, segno2)
+    }}>
+      
+
       <input onChange = {(event)=> setSegno1(event.target.value)} type='text' placeholder='Inserisci segno'></input>
       <input onChange = {(event)=> setSegno2(event.target.value)} type='text' placeholder='Inserisci segno'></input>
       <button type='submit'>Calcola compatibilità</button>

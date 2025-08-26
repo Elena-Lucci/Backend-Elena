@@ -45,6 +45,28 @@ app.get("/segni/:elemento", (req, res) => {
     }
 })
 
+app.get("/compatibilita/:segno1-:segno2", (req, res) => {
+    const {segno1, segno2} = req.params;
+
+    const segnoA = segni.find((x) => x.name_it.toLowerCase() === segno1.toLowerCase())
+    const segnoB = segni.find((x) => x.name_it.toLowerCase() === segno2.toLowerCase())
+
+    if (!segnoA || !segnoB) {
+        res.status(404).json({message: "Uno o entrambi i segni non esistono"})
+    }
+
+    const alta = segnoA.compat_high.includes(segnoB.slug)
+    const bassa = segnoA.compat_low.includes(segnoB.slug)
+
+    if(alta) {
+        res.json({compatibilita: (Math.random()*50) + 50})
+    } else if (bassa) {
+        res.json({compatibilita: (Math.random()*50)})
+    } else {
+        res.json({compatibilita: 50})
+    }
+})
+
 
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`)
