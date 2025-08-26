@@ -27,7 +27,7 @@ app.get("/:segno", (req, res) => {
 });
 
 //output richiesto: stringa "segni di {elemento}: {segno1}, {segno2}, {segno3}"
-//fare altre query a piacere
+
 
 app.get("/segni/:elemento", (req, res) => {
     const {elemento} = req.params;
