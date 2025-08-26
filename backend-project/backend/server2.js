@@ -1,8 +1,12 @@
 import express from "express";
 import segni from "./signs.json" with {type: "json"}; //importo non come moduli ma come json e quindi uso la parola chiave with e specifico il type di import. Altrimenti, di default, per lui è di tipo modules.
+import cors from "cors";
 
 const app = express();
 const PORT = 3500;
+
+app.use(cors());
+app.use(express.json());
 
 app.get("/", (req, res) => {
     res.send("Il server è startato correttamente.");
@@ -40,6 +44,7 @@ app.get("/segni/:elemento", (req, res) => {
         res.status(404).json({message: "Nessun segno zodicale trovato"})
     }
 })
+
 
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`)
