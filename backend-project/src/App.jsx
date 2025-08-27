@@ -15,14 +15,12 @@ function App() {
       intervalloId = setInterval(() => {
         setContatore((prevContatore) => {
           if (prevContatore === parseInt(compatibilita)) {
-            console.log(`Sono entrato nell'if`);
-
             clearInterval(intervalloId);
             return compatibilita;
           }
           return prevContatore + 1;
-        }); // Incrementa il contatore
-      }, 75); // Incrementa ogni secondo (100 millisecondi)
+        });
+      }, 75);
     }, 2000);
     return () => {
       clearTimeout(timeoutId);
@@ -123,7 +121,10 @@ function App() {
               <p>{contatore} %</p>
               <button
                 className="w-full bg-indigo-600 text-white py-3 rounded-md hover:bg-indigo-700 transition duration-200"
-                onClick={() => setCompatibilita("")}
+                onClick={() => {
+                  setCompatibilita("");
+                  setContatore(0);
+                }}
               >
                 Prova di nuovo!
               </button>
