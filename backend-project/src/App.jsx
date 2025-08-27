@@ -5,21 +5,15 @@ import bgImage from './assets/astrologia.jpg';
 
 function App() {
 
-const [segno1, setSegno1] = useState("");
-const [segno2, setSegno2] = useState("");
-
-useEffect(() => {
-  fetch("http://localhost:3000/aziende/1")
-  .then((result)=> result.json())
-  .then((data)=> console.log(data))
-  .catch((err) => console.error(err))
-}, [])
+const [segno1, setSegno1] = useState("ariete");
+const [segno2, setSegno2] = useState("ariete");
+const [compatibilita, setCompatibilita] = useState("");
 
 async function handleCompatibilita(segno1, segno2) {
 try {
 const result = await fetch(`http://localhost:3500/compatibilita/${segno1}-${segno2}`);
 const data = await result.json();
-console.log(data.compatibilita)
+setCompatibilita(Math.floor(data.compatibilita));
 return data.compatibilita;
 }
 catch(error) {
@@ -40,7 +34,8 @@ catch(error) {
     className="w-40 h-40 rounded-full shadow-lg mb-6 object-cover"
   />
 
-  <form
+    {!compatibilita?  
+    <form
     onSubmit={(event) => {
       event.preventDefault();
       handleCompatibilita(segno1, segno2);
@@ -49,19 +44,35 @@ catch(error) {
   >
     <h2 className="text-xl font-semibold text-gray-700 text-center">Verificate la vostra compatibilità!</h2>
 
-    <input
-      onChange={(event) => setSegno1(event.target.value)}
-      type="text"
-      placeholder="Inserisci primo segno"
-      className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
-    />
+<select onChange={(event) => setSegno1(event.target.value)} className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500">
+  <option value={"ariete"} selected>Ariete</option>
+  <option value={"toro"}>Toro</option>
+  <option value={"gemelli"}>Gemelli</option>
+  <option value={"cancro"}>Cancro</option>
+  <option value={"leone"}>Leone</option>
+  <option value={"vergine"}>Vergine</option>
+  <option value={"bilancia"}>Bilancia</option>
+  <option value={"scorpione"}>Scorpione</option>
+  <option value={"sagittario"}>Sagittario</option>
+  <option value={"capricorno"}>Capricorno</option>
+  <option value={"acquario"}>Acquario</option>
+  <option value={"pesci"}>Pesci</option>
+</select>
 
-    <input
-      onChange={(event) => setSegno2(event.target.value)}
-      type="text"
-      placeholder="Inserisci secondo segno"
-      className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
-    />
+<select onChange={(event) => setSegno2(event.target.value)} className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500">
+  <option value={"ariete"} selected>Ariete</option>
+  <option value={"toro"}>Toro</option>
+  <option value={"gemelli"}>Gemelli</option>
+  <option value={"cancro"}>Cancro</option>
+  <option value={"leone"}>Leone</option>
+  <option value={"vergine"}>Vergine</option>
+  <option value={"bilancia"}>Bilancia</option>
+  <option value={"scorpione"}>Scorpione</option>
+  <option value={"sagittario"}>Sagittario</option>
+  <option value={"capricorno"}>Capricorno</option>
+  <option value={"acquario"}>Acquario</option>
+  <option value={"pesci"}>Pesci</option>
+</select>
 
     <button
       type="submit"
@@ -69,11 +80,15 @@ catch(error) {
     >
       Calcola compatibilità
     </button>
-  </form>
+  </form> : 
+  <div className="bg-white p-6 rounded-xl shadow-md max-w-md mx-auto mt-10 space-y-4">
+  <p>{compatibilita} %</p>
+  <button className="w-full bg-indigo-600 text-white py-3 rounded-md hover:bg-indigo-700 transition duration-200" onClick={() => setCompatibilita("")}>Prova di nuovo!</button>
+  </div>
+  }
   </div>
   </div>
 </>
-
   )
 }
 
